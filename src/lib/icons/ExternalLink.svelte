@@ -2,9 +2,8 @@
 	xmlns="http://www.w3.org/2000/svg"
 	viewBox="0 0 20 20"
 	fill="currentColor"
-	width="100%"
-	height="100%"
-	class="">
+	width="1em"
+	height="1em">
 	<title>External link</title>
 	<path
 		fill-rule="evenodd"
