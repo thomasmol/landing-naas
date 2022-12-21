@@ -19,7 +19,7 @@
 			tasks: [
 				{
 					task: 'Finish this page and setup website with prototype',
-					done: false
+					done: true
 				}
 			]
 		},
@@ -147,7 +147,7 @@
 	<section id="roadmap" class="mt-40 border-t border-neutral-600 bg-neutral-800 pb-20">
 		<header class="py-20 text-center">
 			<h1 class="text-2xl font-semibold text-neutral-100">Roadmap</h1>
-			<h2 class="mt-2 text-lg text-neutral-200">Dev planning of tool</h2>
+			<h2 class="mt-2 text-lg text-neutral-200">Upcoming milestones for this project</h2>
 		</header>
 		<div class="container text-center text-neutral-300">
 			{#each roadmap as { date, tasks }}
@@ -156,7 +156,7 @@
 						<h1 class="font-semibold text-lime-300">{formatter.format(date)}</h1>
 					</header>
 					{#each tasks as { task, done }}
-						<p class="pb-1 text-lg">{done ? '[x]' : '[ ]'} {task}</p>
+						<p class="pb-1 text-lg">{done ? '✅' : '🔒'} {task}</p>
 					{/each}
 				</div>
 			{/each}
