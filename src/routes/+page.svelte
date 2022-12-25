@@ -30,12 +30,12 @@
 					<input
 						type="text"
 						name="prompt"
-						class="w-full rounded-xl border-neutral-200 md:w-auto "
-						placeholder="Clean my room..." />
+						class="rounded-xl flex-grow border-neutral-200 "
+						placeholder="&quot;Clean my room, exercise, ship, etc...&quot;" />
 					<button
 						type="submit"
-						class="w-full rounded-lg border border-lime-300 bg-lime-200 px-8 py-3 text-center text-xl font-semibold  text-lime-900 hover:bg-lime-300 md:w-auto"
-						>Nudge me</button>
+						class="w-full md:w-auto rounded-lg border border-lime-300 bg-lime-200 px-8 py-3 text-center text-xl font-semibold  text-lime-900 hover:bg-lime-300 "
+						>Nudge me!</button>
 				</div>
 			</form>
 			<div class="py-10 text-center">
