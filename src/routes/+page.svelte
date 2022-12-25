@@ -114,6 +114,11 @@
 			</a>
 		</div>
 	</section>
+	<section>
+		<div class="container">
+			<input type="text">
+		</div>
+	</section>
 	<section id="features" class="container mt-10">
 		<header class="py-20 text-center">
 			<h1 class="text-2xl font-semibold">Features</h1>
