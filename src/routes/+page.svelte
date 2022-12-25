@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { invalidateAll } from '$app/navigation';
+	import type { PageData, ActionData } from './$types';
 	import Footer from '$lib/sections/Footer.svelte';
 	let prompt: string;
 	let loading = false;
@@ -9,25 +9,8 @@
 	// TODO: Add a failure state
 	// TODO: Add a form validation
 	// TODO: create a timeout, so that the user can't spam the button and deplete my API quota/funds
-	async function generateNudge() {
-		loading = true;
-		const response = await fetch('/api/nudger', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({
-				prompt: prompt
-			})
-		});
-		if (response.ok) {
-			loading = false;
-			invalidateAll();
-		} else {
-			loading = false;
-			throw new Error(response.statusText);
-		}
-	}
+
+	export let form: ActionData;
 </script>
 
 <svelte:head>
@@ -41,20 +24,26 @@
 				<h1 class="text-xl font-semibold">What do you want to do?</h1>
 			</header>
 			<form
-				action=""
+				method="POST"
 				class="mx-auto max-w-xl rounded-xl border border-neutral-200 bg-neutral-50 p-6 ">
 				<div class="flex flex-wrap justify-around gap-4">
 					<input
 						type="text"
-						bind:value={prompt}
+						name="prompt"
 						class="w-full rounded-xl border-neutral-200 md:w-auto "
-						placeholder='"Clean my room..."' />
+						placeholder="Clean my room..." />
 					<button
 						type="submit"
 						class="w-full rounded-lg border border-lime-300 bg-lime-200 px-8 py-3 text-center text-xl font-semibold  text-lime-900 hover:bg-lime-300 md:w-auto"
 						>Nudge me</button>
 				</div>
 			</form>
+			<div class="py-10 text-center">
+				{#if form?.body.choices[0].text}
+					<h2 class="text-xl font-semibold text-neutral-700">Here's what I think you should do:</h2>
+					<p class=" mt-4 text-3xl text-neutral-800">{form?.body.choices[0].text}</p>
+				{/if}
+			</div>
 		</div>
 	</section>
 </main>
