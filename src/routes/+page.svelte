@@ -3,6 +3,12 @@
 	import Footer from '$lib/sections/Footer.svelte';
 	let prompt: string;
 	let loading = false;
+
+	// TODO: Add a loading state
+	// TODO: Add a success state
+	// TODO: Add a failure state
+	// TODO: Add a form validation
+	// TODO: create a timeout, so that the user can't spam the button and deplete my API quota/funds
 	async function generateNudge() {
 		loading = true;
 		const response = await fetch('/api/nudger', {

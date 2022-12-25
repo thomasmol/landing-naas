@@ -9,7 +9,7 @@ export const POST: RequestHandler = async ({ request }) => {
 		temperature: 0,
 	});
 	console.log(response.data);
-
+    // TODO: return prompt response
 	return new Response();
 };
 
