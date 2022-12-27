@@ -1,0 +1,10 @@
+POST http://localhost:5173/api/nudger HTTP/1.1
+content-type: application/json
+
+{
+    "prompt": "exercise and clean"
+}
+
+###
+
+GET http://localhost:5173/ HTTP/1.1

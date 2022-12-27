@@ -6,14 +6,13 @@ export const actions: Actions = {
 	default: async ({ request }) => {
 		const data = await request.formData();
 		const prompt: string = data.get('prompt')?.toString() ?? 'Exercise';
-		console.log(prompt);
 		const response = await openai.createCompletion({
 			model: 'text-davinci-003',
-			prompt: `Create an energetic nudge of max 2 sentences that will encourage me to ${prompt}`,
-			temperature: 0.3,
-            n: 1,
-            max_tokens: 100
+			prompt: `Create a single energetic nudge of max 2 sentences that will encourage me to ${prompt}`,
+			temperature: 0.1,
+			n: 1,
+			max_tokens: 150
 		});
-		return { success: true, body: response.data };
+		return { success: true, nudge: response.data.choices[0].text?.replaceAll('\n', ' ') };
 	}
 };
