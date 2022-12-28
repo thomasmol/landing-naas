@@ -1,7 +1,9 @@
 import type { RequestHandler } from './$types';
 import openai from '$lib/openai';
 import { json } from '@sveltejs/kit';
-import { v4 as uuidv4 } from 'uuid';
+// using this function results in error, so now done at client side
+// something about servers i suppose
+// import { v4 } from 'uuid';
 
 export const POST: RequestHandler = async ({ request }) => {
 	const { prompt } = await request.json();
@@ -15,7 +17,7 @@ export const POST: RequestHandler = async ({ request }) => {
 	});
 	const nudgeText: string = response.data.choices[0].text?.replaceAll('"', '') ?? '';
 	const nudge: Nudge = {
-		id: 'uuidv4()',
+		id: 'v4()',
 		text: nudgeText,
 		prompt: prompt,
 		promptPrefix: promptPrefix,

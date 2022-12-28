@@ -1,6 +1,8 @@
 <script lang="ts">
 	import Footer from '$lib/sections/Footer.svelte';
 	import { nudgesStore } from '$lib/stores/nudges';
+	import { v4 } from 'uuid';
+
 	let prompt: string;
 	let loading: boolean = false;
 	let nudge: Nudge;
@@ -28,13 +30,14 @@
 			})
 		});
 		nudge = await response.json();
+		nudge.id = v4();
 		nudgesStore.set([nudge, ...$nudgesStore]);
 		loading = false;
 	}
 
 	function submitTestForm() {
 		nudge = {
-			id: 'string',
+			id: v4(),
 			text: 'your nudge',
 			prompt: prompt,
 			promptPrefix: 'prefix',
