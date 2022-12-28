@@ -1,6 +1,9 @@
 import type { Actions } from '@sveltejs/kit';
 import openai from '$lib/openai';
 
+
+// This function can be called through a form
+// not used in the app currently
 /** @type {import('./$types').Actions} */
 export const actions: Actions = {
 	default: async ({ request }) => {

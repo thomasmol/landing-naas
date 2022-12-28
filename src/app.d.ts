@@ -7,3 +7,12 @@ declare namespace App {
 	// interface PageData {}
 	// interface Platform {}
 }
+type Nudge = {
+	id: string;
+	text: string;
+	prompt: string;
+	promptPrefix: string;
+	feedback: string;
+	reaction: string;
+	createdAt: Date;
+};

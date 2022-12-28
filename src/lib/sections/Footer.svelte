@@ -9,17 +9,17 @@
 				href="https://github.com/thomasmol/nudgeme"
 				target="_blank"
 				rel="noreferrer"
-				class="flex items-center text-lime-700">Github &nbsp;<ExternalLink /></a>
+				class="flex items-center text-lime-300">Github &nbsp;<ExternalLink /></a>
 			<a
 				href="https://twitter.com/thomas_a_mol"
 				target="_blank"
 				rel="noreferrer"
-				class="flex items-center text-lime-700">Twitter &nbsp;<ExternalLink /></a>
+				class="flex items-center text-lime-300">Twitter &nbsp;<ExternalLink /></a>
 			<a
 				href="https://thomasmol.com"
 				target="_blank"
 				rel="noreferrer"
-				class="flex items-center text-lime-700">Me &nbsp;<ExternalLink /></a>
+				class="flex items-center text-lime-300">Me &nbsp;<ExternalLink /></a>
 		</p>
 	</div>
 </footer>
