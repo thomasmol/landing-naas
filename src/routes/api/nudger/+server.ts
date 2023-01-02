@@ -17,7 +17,7 @@ export const POST: RequestHandler = async ({ request }) => {
 	});
 	const nudgeText: string = response.data.choices[0].text?.replaceAll('"', '') ?? '';
 	const nudge: Nudge = {
-		id: 'v4()',
+		id: (Math.random() + 1).toString(36).substring(7),
 		text: nudgeText,
 		prompt: prompt,
 		promptPrefix: promptPrefix,

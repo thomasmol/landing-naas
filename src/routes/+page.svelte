@@ -35,6 +35,32 @@
 		loading = false;
 	}
 
+	async function rate(rating: string) {
+		if (rating === 'like') {
+			nudge.feedback = 'like';
+		} else if (rating === 'dislike') {
+			nudge.feedback = 'dislike';
+		} else {
+			nudge.feedback = 'no feedback';
+		}
+		// update nudgestore with new nudge data
+		$nudgesStore.shift();
+		nudgesStore.set([nudge, ...$nudgesStore]);
+	}
+	async function react(reaction: string, nudge: Nudge) {
+		if (reaction === 'yes') {
+			nudge.reaction = 'yes';
+		} else if (reaction === 'no') {
+			nudge.reaction = 'no';
+		} else {
+			nudge.reaction = 'no reaction';
+		}
+		let index = $nudgesStore.findIndex((value) => {
+			value.id == nudge.id;
+		});
+		$nudgesStore[index] = nudge;
+	}
+
 	function submitTestForm() {
 		nudge = {
 			id: v4(),
@@ -53,15 +79,15 @@
 	<title>SNE</title>
 </svelte:head>
 
-<main class="mb-4">
+<main class="mb-4 ">
 	<section id="input">
-		<div class="container px-2">
+		<div class="container max-w-2xl px-2">
 			<header class="py-10 text-center">
 				<h1 class="text-3xl font-semibold text-neutral-800">What do you want to do?</h1>
 			</header>
 			<form
 				on:submit|preventDefault={submitForm}
-				class="mx-auto max-w-2xl rounded-xl border border-neutral-200 bg-neutral-50 p-6 ">
+				class="mx-auto rounded-xl border border-neutral-200 bg-neutral-50 p-6 ">
 				<div class="flex flex-wrap justify-around gap-4">
 					<input
 						type="text"
@@ -79,30 +105,72 @@
 		</div>
 	</section>
 	<section id="nudge" class="mt-10 px-2">
-		<div class="container rounded-xl border bg-neutral-50 py-20 text-center">
+		<div class="container max-w-2xl rounded-xl border bg-neutral-50 py-10 text-center">
 			{#if loading}
 				<p class="text-3xl text-neutral-800">Loading...</p>
 			{:else if nudge}
 				<p class="text-3xl text-neutral-800">{nudge.text}</p>
+				<p class="mt-2 text-sm text-neutral-600">"{nudge.prompt}"</p>
+				<div class="mt-6 flex justify-around gap-4">
+					<button
+						on:click={() => rate('like')}
+						class="flex-grow rounded-xl border border-neutral-300 bg-neutral-200 px-8 py-3 text-center text-xl font-semibold text-neutral-900  hover:bg-neutral-300 md:w-auto "
+						>👍</button>
+					<button
+						on:click={() => rate('dislike')}
+						class="flex-grow rounded-xl border border-neutral-300 bg-neutral-200 px-8 py-3 text-center text-xl font-semibold text-neutral-900  hover:bg-neutral-300 md:w-auto "
+						>👎</button>
+				</div>
 			{:else}
-				<p class="text-xl text-neutral-500">Your nudge will appear here</p>
+				<p class="text-xl text-neutral-500">Be specific!</p>
 			{/if}
 		</div>
 	</section>
 	<section id="allnudges" class="mt-10 px-2">
 		{#if $nudgesStore.length > 0}
-			<div class="container rounded-xl border bg-neutral-50 p-4">
+			<div class="container max-w-2xl rounded-xl border bg-neutral-50 p-4">
 				<header>
 					<h1 class="text-3xl font-semibold text-neutral-800">Your nudges</h1>
 				</header>
 
 				{#each $nudgesStore as nudge}
-					<div class="mt-4 flex justify-between rounded-lg border bg-white p-4 gap-4">
+					<div class="mt-4 flex justify-between gap-4 rounded-lg border bg-white p-4">
 						<div>
 							<p class="font-semibold text-neutral-800">{nudge.text}</p>
 							<p class="mt-1 text-sm text-neutral-600">"{nudge.prompt}"</p>
 						</div>
-						<p>{new Date(nudge.createdAt).toLocaleDateString('en-US', options)}</p>
+						<div class="text-right">
+							{#if nudge.feedback === 'like'}
+								<p class="text-xl text-lime-900">👍</p>
+							{:else if nudge.feedback === 'dislike'}
+								<p class="text-xl text-red-900">👎</p>
+							{:else}
+								<p class="text-xl text-neutral-500">🤷</p>
+							{/if}
+							<p class="text-sm font-semibold text-neutral-500">
+								{new Date(nudge.createdAt).toLocaleDateString('en-US', options)}
+							</p>
+							<p class="mt-4 text-sm">Did you "{nudge.prompt}"?</p>
+							<p class="mt-2 text-sm text-neutral-600">
+								{#if nudge.reaction === 'yes'}
+									👍
+								{:else if nudge.reaction === 'no'}
+									👎
+								{/if}
+							</p>
+							{#if nudge.reaction.length === 0}
+								<div class="mt-2 flex justify-around gap-4">
+									<button
+										on:click={() => react('yes', nudge)}
+										class="flex-grow rounded-xl border border-lime-300 bg-lime-200 px-8 py-3 text-center text-xl font-semibold text-lime-900  hover:bg-lime-300 md:w-auto "
+										>👍</button>
+									<button
+										on:click={() => react('no', nudge)}
+										class="flex-grow rounded-xl border border-red-300 bg-red-200 px-8 py-3 text-center text-xl font-semibold text-red-900  hover:bg-red-300 md:w-auto "
+										>👎</button>
+								</div>
+							{/if}
+						</div>
 					</div>
 				{/each}
 			</div>
