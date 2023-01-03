@@ -7,10 +7,10 @@ import { json } from '@sveltejs/kit';
 
 export const POST: RequestHandler = async ({ request }) => {
 	const { prompt } = await request.json();
-	const promptPrefix = 'Create 1 encouraging nudge with max 1 emoji that will encourage me to ';
+	const promptPrefix = 'Create 1 encouraging nudge that will encourage me to do the following:';
 	const response = await openai.createCompletion({
 		model: 'text-davinci-003',
-		prompt: `${promptPrefix} ${prompt}`,
+		prompt: `${promptPrefix} ${prompt}.`,
 		temperature: 0.5,
 		n: 1,
 		max_tokens: 150
