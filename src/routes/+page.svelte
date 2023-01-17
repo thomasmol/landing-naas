@@ -99,7 +99,7 @@
 <main class="mb-4 ">
 	<div class="container flex">
 		<p class="py-2">Logged in as {$page.data.session?.user?.name}</p>
-		<button on:click={() => signOut} class="px-1 py-2 hover:bg-slate-100 md:px-6">Sign out</button>
+		<button on:click={() => signOut()} class="px-1 py-2 hover:bg-slate-100 md:px-6">Sign out</button>
 	</div>
 	<section id="input">
 		<div class="container max-w-2xl px-2">
