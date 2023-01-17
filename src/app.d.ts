@@ -9,6 +9,7 @@ declare namespace App {
 }
 type Nudge = {
 	id: string;
+	userId: string;
 	text: string;
 	prompt: string;
 	promptPrefix: string;
