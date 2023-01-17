@@ -41,7 +41,7 @@
 			})
 		});
 		newNudge = await response.json();
-		invalidateAll();
+		await invalidateAll();
 		loading = false;
 	}
 
@@ -58,7 +58,7 @@
 				reaction: nudge.reaction
 			})
 		});
-		invalidateAll();
+		await invalidateAll();
 		loading = false;
 	}
 	async function react(reaction: string, nudge: Nudge) {
@@ -74,7 +74,7 @@
 				reaction: reaction
 			})
 		});
-		invalidateAll();
+		await invalidateAll();
 		loading = false;
 	}
 
