@@ -13,7 +13,8 @@
 
 	let prompt: string;
 	let loading: boolean = false;
-	let nudge: Nudge;
+	let loadingNudgeId: string = '';
+	let newNudge: Nudge;
 
 	let options: Intl.DateTimeFormatOptions = {
 		day: 'numeric',
@@ -28,6 +29,7 @@
 
 	// function thats calls the API
 	async function submitForm() {
+		loadingNudgeId = '';
 		loading = true;
 		const response = await fetch('/api/nudges', {
 			method: 'POST',
@@ -38,11 +40,14 @@
 				prompt
 			})
 		});
-		nudge = await response.json();
+		newNudge = await response.json();
+		invalidateAll();
 		loading = false;
 	}
 
 	async function rate(rating: string, nudge: Nudge) {
+		loadingNudgeId = nudge.id;
+		loading = true;
 		const response = await fetch('/api/nudges/' + nudge.id, {
 			method: 'PUT',
 			headers: {
@@ -54,8 +59,11 @@
 			})
 		});
 		invalidateAll();
+		loading = false;
 	}
 	async function react(reaction: string, nudge: Nudge) {
+		loadingNudgeId = nudge.id;
+		loading = true;
 		const response = await fetch('/api/nudges/' + nudge.id, {
 			method: 'PUT',
 			headers: {
@@ -67,6 +75,7 @@
 			})
 		});
 		invalidateAll();
+		loading = false;
 	}
 
 	/* function submitTestForm() {
@@ -118,20 +127,20 @@
 	</section>
 	<section id="nudge" class="mt-10 px-2">
 		<div class="container max-w-2xl rounded-xl border bg-neutral-50 py-10 text-center">
-			{#if loading}
+			{#if loading && loadingNudgeId === ''}
 				<p class="text-3xl text-neutral-800">Loading...</p>
-			{:else if nudge}
-				<p class="text-3xl text-neutral-800">{nudge.text}</p>
-				<p class="mt-2 text-sm text-neutral-600">"{nudge.prompt}"</p>
+			{:else if newNudge}
+				<p class="text-3xl text-neutral-800">{newNudge.text}</p>
+				<p class="mt-2 text-sm text-neutral-600">"{newNudge.prompt}"</p>
 				<div class="mt-6 flex justify-around gap-4">
 					<button
-						on:click={() => rate('like', nudge)}
-						class:border-neutral-500={nudge.feedback === 'like'}
+						on:click={() => rate('like', newNudge)}
+						class:border-neutral-500={newNudge.feedback === 'like'}
 						class="flex-grow rounded-xl border bg-white px-6 py-2 text-center text-xl hover:border-neutral-700 md:w-auto "
 						>👍</button>
 					<button
-						on:click={() => rate('dislike', nudge)}
-						class:border-neutral-500={nudge.feedback === 'dislike'}
+						on:click={() => rate('dislike', newNudge)}
+						class:border-neutral-500={newNudge.feedback === 'dislike'}
 						class="flex-grow rounded-xl border bg-white px-6 py-2 text-center text-xl font-semibold hover:border-neutral-700 md:w-auto "
 						>👎</button>
 				</div>
@@ -159,31 +168,49 @@
 								<div class="flex-1">
 									<p class="text-sm font-semibold text-neutral-700">Rate your nudge</p>
 									<div class="mt-2">
-										<button
-											on:click={() => rate('like', nudge)}
-											class:border-neutral-500={nudge.feedback === 'like'}
-											class="flex-grow rounded-xl border bg-white px-6 py-2 text-center text-xl hover:border-neutral-700 md:w-auto "
-											>👍</button>
-										<button
-											on:click={() => rate('dislike', nudge)}
-											class:border-neutral-500={nudge.feedback === 'dislike'}
-											class="flex-grow rounded-xl border bg-white px-6 py-2 text-center text-xl font-semibold hover:border-neutral-700 md:w-auto "
-											>👎</button>
+										{#if loading && nudge.id === loadingNudgeId}
+											<button
+												disabled
+												class="flex-grow rounded-xl border bg-white px-6 py-2 text-center text-xl hover:border-neutral-700 md:w-auto "
+												>Loading...</button>
+										{:else}
+											<button
+												on:click={() => rate('like', nudge)}
+												class:border-neutral-500={nudge.feedback === 'like'}
+												class:bg-neutral-200={nudge.feedback === 'like'}
+												class="flex-grow rounded-xl border bg-white px-6 py-2 text-center text-xl hover:border-neutral-700 md:w-auto "
+												>👍</button>
+											<button
+												on:click={() => rate('dislike', nudge)}
+												class:border-neutral-500={nudge.feedback === 'dislike'}
+												class:bg-neutral-200={nudge.feedback === 'dislike'}
+												class="flex-grow rounded-xl border bg-white px-6 py-2 text-center text-xl font-semibold hover:border-neutral-700 md:w-auto "
+												>👎</button>
+										{/if}
 									</div>
 								</div>
 								<div class="flex-1">
 									<p class="text-sm font-semibold text-neutral-700">Did you do "{nudge.prompt}"?</p>
 									<div class="mt-2">
-										<button
-											on:click={() => react('yes', nudge)}
-											class:border-green-500={nudge.reaction === 'yes'}
-											class="flex-grow rounded-xl border bg-white px-6 py-2 text-center text-xl hover:border-green-700 md:w-auto "
-											>✅</button>
-										<button
-											on:click={() => react('no', nudge)}
-											class:border-red-500={nudge.reaction === 'no'}
-											class="flex-grow rounded-xl border bg-white px-6 py-2 text-center text-xl font-semibold hover:border-red-700 md:w-auto "
-											>🚫</button>
+										{#if loading && nudge.id === loadingNudgeId}
+											<button
+												disabled
+												class="flex-grow rounded-xl border bg-white px-6 py-2 text-center text-xl hover:border-neutral-700 md:w-auto "
+												>Loading...</button>
+										{:else}
+											<button
+												on:click={() => react('yes', nudge)}
+												class:border-green-500={nudge.reaction === 'yes'}
+												class:bg-green-200={nudge.reaction === 'yes'}
+												class="flex-grow rounded-xl border bg-white px-6 py-2 text-center text-xl hover:border-green-700 md:w-auto "
+												>✅</button>
+											<button
+												on:click={() => react('no', nudge)}
+												class:border-red-500={nudge.reaction === 'no'}
+												class:bg-red-200={nudge.reaction === 'no'}
+												class="flex-grow rounded-xl border bg-white px-6 py-2 text-center text-xl font-semibold hover:border-red-700 md:w-auto "
+												>🚫</button>
+										{/if}
 									</div>
 								</div>
 							</div>

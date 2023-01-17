@@ -41,6 +41,9 @@ export const GET = (async ({locals}) => {
 		where: {
 			//@ts-expect-error issue https://authjs.dev/reference/utilities
 			userId: session?.user?.id ?? 'anonymous'
+		},
+		orderBy: {
+			createdAt: 'desc'
 		}
 	});
 	return new Response(JSON.stringify(nudges));
