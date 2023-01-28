@@ -4,10 +4,9 @@ import prisma from '$lib/database';
 import type { Nudge } from '@prisma/client';
 // using this function results in error, so now done at client side
 // something about servers i suppose
-// import { v4 } from 'uuid';
+import { v4 } from 'uuid';
 
 export const POST = (async ({ request, locals }) => {
-	console.log('it posts');
 	const { prompt, anonymous } = await request.json();
 	const session = await locals.getSession();
 
@@ -29,8 +28,8 @@ export const POST = (async ({ request, locals }) => {
 		feedback: '',
 		reaction: '',
 		createdAt: new Date(),
-		id: '',
-		updatedAt: new Date()
+		updatedAt: new Date(),
+		id: v4()
 	};
 
 	if (!anonymous) {
@@ -44,19 +43,15 @@ export const POST = (async ({ request, locals }) => {
 }) satisfies RequestHandler;
 
 export const GET = (async ({ locals }) => {
-	try {
-		const session = await locals.getSession();
-		const nudges = await prisma.nudge.findMany({
-			where: {
-				//@ts-expect-error issue https://authjs.dev/reference/utilities
-				userId: session?.user?.id ?? 'anonymous'
-			},
-			orderBy: {
-				createdAt: 'desc'
-			}
-		});
-		return new Response(JSON.stringify(nudges));
-	} catch (e) {
-		return new Response(JSON.stringify(e));
-	}
+	const session = await locals.getSession();
+	const nudges = await prisma.nudge.findMany({
+		where: {
+			//@ts-expect-error issue https://authjs.dev/reference/utilities
+			userId: session?.user?.id ?? 'anonymous'
+		},
+		orderBy: {
+			createdAt: 'desc'
+		}
+	});
+	return new Response(JSON.stringify(nudges));
 }) satisfies RequestHandler;

@@ -8,11 +8,12 @@ import prisma from '$lib/database';
 
 
 const authorization = (async ({ event, resolve }) => {
-	const unprotectedRoutes = ['/login', '/register', '/welcome', '/api/nudges'];
+	const unprotectedRoutes = ['/login', '/register', '/welcome'];
+	const specialRoutes = ['/api/nudges'];
 	// Protect any routes under unprotectedRoutes
 	const session = await event.locals.getSession();
 	if (!unprotectedRoutes.includes(event.url.pathname)) {
-		if (!session) {
+		if (!session && !specialRoutes.includes(event.url.pathname)) {
 			throw redirect(303, '/welcome');
 		}
 	} else {
