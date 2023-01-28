@@ -37,9 +37,14 @@
 				href="https://better-facepile-663270.framer.app/"
 				class="flex-inline justify-center flex items-center text-lime-600  underline"
 				target="_blank"
-				rel="noreferrer">View landing page <ExternalLink /></a>
+				rel="noreferrer">Landing page <ExternalLink /></a>
+			<a
+				href="https://nudgeme.vercel.app/"
+				class="mt-4 flex-inline justify-center flex items-center text-lime-600  underline"
+				target="_blank"
+				rel="noreferrer">Open demo in new tab <ExternalLink /></a>
 		</div>
-		<p class="mt-10 text-center">Sign in to save nudges.</p>
+		<p class="mt-4 text-center">Sign in to save nudges.</p>
 		<p class="mt-4 flex flex-col">
 			<a href="/login" class="rounded border bg-slate-800 p-2 text-center text-white">Sign In</a>
 		</p>
