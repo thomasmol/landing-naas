@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { invalidateAll } from '$app/navigation';
 	import ExternalLink from '$lib/icons/ExternalLink.svelte';
+	import Footer from '$lib/sections/Footer.svelte';
 
 	let prompt: string;
 	let loading: boolean = false;
@@ -73,3 +74,5 @@
 		</form>
 	</div>
 </div>
+
+<Footer/>

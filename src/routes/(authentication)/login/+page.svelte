@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { signIn, signOut } from '@auth/sveltekit/client';
 	import { page } from '$app/stores';
+	import Footer from '$lib/sections/Footer.svelte';
 </script>
 
 <main class="container">
@@ -15,3 +16,5 @@
 		</p>
 	</div>
 </main>
+
+<Footer/>
