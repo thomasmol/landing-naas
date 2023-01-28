@@ -1,7 +1,5 @@
 <script lang="ts">
 	import Footer from '$lib/sections/Footer.svelte';
-	import { nudgesStore } from '$lib/stores/nudges';
-	import { v4 } from 'uuid';
 	import { format } from 'timeago.js';
 	import { signOut } from '@auth/sveltekit/client';
 	import { page } from '$app/stores';
@@ -37,7 +35,8 @@
 				'Content-Type': 'application/json'
 			},
 			body: JSON.stringify({
-				prompt
+				prompt,
+				anonymous: false
 			})
 		});
 		newNudge = await response.json();
@@ -48,7 +47,7 @@
 	async function rate(rating: string, nudge: Nudge) {
 		loadingNudgeId = nudge.id;
 		loading = true;
-		const response = await fetch('/api/nudges/' + nudge.id, {
+		await fetch('/api/nudges/' + nudge.id, {
 			method: 'PUT',
 			headers: {
 				'Content-Type': 'application/json'
@@ -61,10 +60,11 @@
 		await invalidateAll();
 		loading = false;
 	}
+
 	async function react(reaction: string, nudge: Nudge) {
 		loadingNudgeId = nudge.id;
 		loading = true;
-		const response = await fetch('/api/nudges/' + nudge.id, {
+		await fetch('/api/nudges/' + nudge.id, {
 			method: 'PUT',
 			headers: {
 				'Content-Type': 'application/json'
