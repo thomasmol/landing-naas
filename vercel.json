@@ -1,7 +1,5 @@
 {
-  "functions":{
-    "src/routes/api/python/index.py":{
-      "memory": 1024
-    }
-  }
+  "routes": [
+    {"src": "/api/test", "dest": "/api/nudges"}
+  ]
 }
